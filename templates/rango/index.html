@@ -23,9 +23,9 @@
         <strong>There are no categories present.</strong>
       {% endif %}
       <h1>Most Viewed Pages</h1>
-      {% if mostviewedpages %}
+      {% if pages %}
       <ul>
-        {% for page in mostviewedpages %}
+        {% for page in pages %}
         <li>
         <a href="{{ page.url }}">{{ page.title }}</a>
         </li>
