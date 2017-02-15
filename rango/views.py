@@ -30,6 +30,7 @@ def visitor_cookie_handler(request):
         request.session['last_visit'] = last_visit_cookie
     request.session['visits'] = visits
 
+@login_required
 def add_page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
@@ -54,7 +55,7 @@ def add_page(request, category_name_slug):
 
     return render(request, 'rango/add_page.html', context_dict)
 
-
+@login_required
 def add_category(request):
     form = CategoryForm()
 
@@ -88,11 +89,14 @@ def index(request):
 #    return render(request, 'rango/index.html', context=context_dict)
 
 def about(request):
+    context_dict = {}
     if request.session.test_cookie_worked():
         print("TEST COOKIE WORKED!")
         request.session.delete_test_cookie()
-    context_dict0 = {'my_name': "Emad Jalali Bostanoo"}
-    return render(request, 'rango/about.html', context=context_dict0)
+    visitor_cookie_handler(request)
+    context_dict['visits'] = request.session['visits']
+    print(request.session['visits'])
+    return render(request, 'rango/about.html', context_dict)
 
 def show_category(request, category_name_slug):
 # Create a context dictionary which we can pass # to the template rendering engine.
